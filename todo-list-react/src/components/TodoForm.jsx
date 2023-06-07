@@ -49,9 +49,9 @@ const TodoForm = ({
 					onChange={handleInputDescriptionChange}
 					required={true}
 				/>
-				<AddButton theme={theme} onClick={onClickForm}>
+				<Button theme={theme} onClick={onClickForm}>
 					{buttonName}
-				</AddButton>
+				</Button>
 			</Form>
 		</FormWrapper>
 	)
@@ -119,7 +119,7 @@ const TodoDescription = styled.input`
 	}
 `
 
-const AddButton = styled.button`
+const Button = styled.button`
 	border: none;
 	border-radius: 1rem;
 	padding: 1rem;

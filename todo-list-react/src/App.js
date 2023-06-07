@@ -197,12 +197,12 @@ const TodoContainer = styled.div`
 `
 
 const MainForm = styled.div`
+	width: 100%;
 	margin: 2rem 0;
 	display: flex;
 	flex-direction: column;
 
 	@media screen and (min-width: 700px) {
-		width: 100%;
 		justify-content: space-between;
 		flex-direction: row;
 	}
@@ -225,6 +225,7 @@ const Header = styled.h1`
 `
 
 const ListContainer = styled.div`
+	width: 100%;
 	border-radius: 1rem;
 	padding: 3rem 1rem 3rem 1rem;
 	background-color: ${(props) => props.theme.foregroundColor};

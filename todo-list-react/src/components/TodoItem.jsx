@@ -30,12 +30,11 @@ const TodoItem = ({
 			onClickForm={editTodoItem}
 		/>
 	) : (
-		<TodoWrapper>
+		<TodoWrapper draggable>
 			<Todo
 				theme={theme}
 				className={`${todoItem.completed ? "completed" : ""}`}
-				onClick={onClickItem}
-				draggable>
+				onClick={onClickItem}>
 				<TodoTitle>{title}</TodoTitle>
 				<TodoDescription>{description}</TodoDescription>
 			</Todo>
