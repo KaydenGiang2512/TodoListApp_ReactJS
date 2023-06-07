@@ -95,7 +95,6 @@ const TodoContainer = styled.div`
 	width: 80%;
 	display: flex;
 	flex-direction: column;
-	// background: ${(props) => props.theme.primaryColor};
 `
 
 const Header = styled.h1`

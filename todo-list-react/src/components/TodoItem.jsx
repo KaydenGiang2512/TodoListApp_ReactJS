@@ -16,6 +16,7 @@ const TodoItem = ({
 		const updatedTodoList = setTodoItems(
 			todoItems.filter((element) => element.id !== todoItem.id)
 		)
+
 		localStorage.setItem("todoItems", JSON.stringify(updatedTodoList))
 
 		if (updatedTodoList === undefined) {
@@ -37,6 +38,22 @@ const TodoItem = ({
 			})
 		)
 	}
+
+	// Handle todo edit button
+	// const editTodoItem = () => {
+	// 	setTodoItems(
+	// 		todoItems.map((item) => {
+	// 			if (item.id === todoItem.id) {
+	// 				return {
+	// 					...item,
+	// 					isEditing: item.isEditing,
+	// 				}
+	// 			}
+	// 			return item
+	// 		})
+	// 	)
+	// 	console.log(todoItem.isEditing)
+	// }
 
 	return (
 		<TodoWrapper>
@@ -64,18 +81,26 @@ const TodoItem = ({
 const TodoWrapper = styled.div`
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
+	transition: 0.25s ease-in-out;
 	padding: 1rem 0;
 	margin: 2rem 0;
-	transition: 0.25s ease-in-out;
+
+	@media screen and (min-width: 700px) {
+		align-items: normal;
+		justify-content: space-between;
+		flex-direction: row;
+	}
 `
 
 const Todo = styled.li`
-	width: 75%;
+	width: 100%;
 	padding: 1rem;
 	border-radius: 1rem;
 	background-color: ${(props) => props.theme.primaryColor};
 	transition: 0.25s ease-in-out;
+	margin-bottom: 1rem;
 
 	&: hover {
 		opacity: 0.5;
@@ -89,9 +114,9 @@ const Todo = styled.li`
 		pointer-events: none;
 	}
 
-	&.deleted {
-		transform: translateY(10rem) rotateZ(20deg);
-		opacity: 0;
+	@media screen and (min-width: 700px) {
+		width: 75%;
+		margin: 0;
 	}
 `
 
@@ -106,11 +131,18 @@ const TodoDescription = styled.h2`
 `
 
 const TodoButtons = styled.div`
+	width: 100%;
 	display: flex;
+	justify-content: space-between;
+
+	@media screen and (min-width: 700px) {
+		width: auto;
+	}
 `
 
 const CompleteButton = styled.button`
-	padding: 0 1rem;
+	width: 40%;
+	padding: 1rem;
 	border: none;
 	border-radius: 1rem;
 	color: ${(props) => props.theme.headerColor};
@@ -125,10 +157,16 @@ const CompleteButton = styled.button`
 		color: ${(props) => props.theme.darkHeaderColor};
 		background-color: ${(props) => props.theme.primaryColor};
 	}
+
+	@media screen and (min-width: 700px) {
+		width: auto;
+		padding: 0 1rem;
+	}
 `
 
 const DeleteButton = styled.button`
-	padding: 0 1rem;
+	width: 40%;
+	padding: 1rem;
 	border: none;
 	border-radius: 1rem;
 	color: ${(props) => props.theme.headerColor};
@@ -139,9 +177,9 @@ const DeleteButton = styled.button`
 		opacity: 0.5;
 	}
 
-	.deleted {
-		transform: translateY(10rem) rotateZ(20deg);
-		opacity: 0;
+	@media screen and (min-width: 700px) {
+		width: auto;
+		padding: 0 1rem;
 	}
 `
 

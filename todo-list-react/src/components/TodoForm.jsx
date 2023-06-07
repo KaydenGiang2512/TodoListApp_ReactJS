@@ -100,14 +100,27 @@ const TodoForm = ({
 const FormWrapper = styled.form`
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	justify-content: center;
 	padding: 2rem 0;
+
+	@media screen and (min-width: 700px) {
+		flex-direction: row;
+		justify-content: space-between;
+	}
 `
 
 const MainForm = styled.div`
 	width: 75%;
+	width: 100%;
+	margin: 2rem 0;
 	display: flex;
-	justify-content: space-between;
+
+	@media screen and (min-width: 700px) {
+		width: 75%;
+		justify-content: space-between;
+		margin: 0;
+	}
 `
 
 const TodoTitle = styled.input`
