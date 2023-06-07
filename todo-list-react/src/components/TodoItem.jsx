@@ -1,65 +1,41 @@
 import React from "react"
 import styled from "styled-components"
 import { useThemeContext } from "../context/themeProvider"
+import TodoForm from "./TodoForm"
 
 const TodoItem = ({
 	title,
 	description,
 	todoItem,
-	todoItems,
-	setTodoItems,
+	onCompleteItem,
+	onDeleteItem,
+	onClickItem,
+	editedInputTitle,
+	setEditedInputTitle,
+	editedInputDescription,
+	setEditedInputDescription,
+	editTodoItem,
+	selectedItemIndex,
+	itemIndex,
 }) => {
 	const theme = useThemeContext()
 
-	// Handle todo delete button
-	const deleteTodoItem = () => {
-		const updatedTodoList = setTodoItems(
-			todoItems.filter((element) => element.id !== todoItem.id)
-		)
-
-		localStorage.setItem("todoItems", JSON.stringify(updatedTodoList))
-
-		if (updatedTodoList === undefined) {
-			localStorage.setItem("todoItems", JSON.stringify([]))
-		}
-	}
-
-	// Handle todo complete button
-	const completeTodoItem = () => {
-		setTodoItems(
-			todoItems.map((item) => {
-				if (item.id === todoItem.id) {
-					return {
-						...item,
-						completed: !item.completed,
-					}
-				}
-				return item
-			})
-		)
-	}
-
-	// Handle todo edit button
-	// const editTodoItem = () => {
-	// 	setTodoItems(
-	// 		todoItems.map((item) => {
-	// 			if (item.id === todoItem.id) {
-	// 				return {
-	// 					...item,
-	// 					isEditing: item.isEditing,
-	// 				}
-	// 			}
-	// 			return item
-	// 		})
-	// 	)
-	// 	console.log(todoItem.isEditing)
-	// }
-
-	return (
+	return itemIndex === selectedItemIndex ? (
+		<TodoForm
+			buttonName="Edit item"
+			inputTitle={editedInputTitle}
+			setInputTitle={setEditedInputTitle}
+			inputDescription={editedInputDescription}
+			setInputDescription={setEditedInputDescription}
+			onClickForm={editTodoItem}
+		/>
+	) : (
 		<TodoWrapper>
 			<Todo
 				theme={theme}
-				className={`${todoItem.completed ? "completed" : ""}`}>
+				className={`${todoItem.completed ? "completed" : ""}`}
+				onClick={onClickItem}
+				draggable>
 				<TodoTitle>{title}</TodoTitle>
 				<TodoDescription>{description}</TodoDescription>
 			</Todo>
@@ -67,10 +43,10 @@ const TodoItem = ({
 				<CompleteButton
 					theme={theme}
 					className={`${todoItem.completed ? "completed" : ""}`}
-					onClick={completeTodoItem}>
+					onClick={onCompleteItem}>
 					{todoItem.completed ? "Uncheck" : "Complete"}
 				</CompleteButton>
-				<DeleteButton theme={theme} onClick={deleteTodoItem}>
+				<DeleteButton theme={theme} onClick={onDeleteItem}>
 					Delete
 				</DeleteButton>
 			</TodoButtons>
@@ -85,7 +61,6 @@ const TodoWrapper = styled.div`
 	align-items: center;
 	transition: 0.25s ease-in-out;
 	padding: 1rem 0;
-	margin: 2rem 0;
 
 	@media screen and (min-width: 700px) {
 		align-items: normal;
@@ -100,14 +75,14 @@ const Todo = styled.li`
 	border-radius: 1rem;
 	background-color: ${(props) => props.theme.primaryColor};
 	transition: 0.25s ease-in-out;
-	margin-bottom: 1rem;
+	margin: 0 1rem;
 
 	&: hover {
-		opacity: 0.5;
+		opacity: 0.75;
 	}
 
 	&.completed {
-		opacity: 0.5;
+		opacity: 0.75;
 		text-decoration: line-through;
 		color: ${(props) => props.theme.headerColor};
 		background-color: ${(props) => props.theme.completeColor};
@@ -116,7 +91,6 @@ const Todo = styled.li`
 
 	@media screen and (min-width: 700px) {
 		width: 75%;
-		margin: 0;
 	}
 `
 
@@ -134,9 +108,11 @@ const TodoButtons = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
+	margin: 1rem;
 
 	@media screen and (min-width: 700px) {
 		width: auto;
+		margin: 0 1rem;
 	}
 `
 
@@ -150,7 +126,7 @@ const CompleteButton = styled.button`
 	transition: 0.25s ease-in-out;
 
 	&: hover {
-		opacity: 0.5;
+		opacity: 0.75;
 	}
 
 	&.completed {
@@ -174,7 +150,7 @@ const DeleteButton = styled.button`
 	transition: 0.25s ease-in-out;
 
 	&: hover {
-		opacity: 0.5;
+		opacity: 0.75;
 	}
 
 	@media screen and (min-width: 700px) {

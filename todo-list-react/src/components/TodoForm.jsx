@@ -1,21 +1,16 @@
 import React from "react"
 import styled from "styled-components"
 import { useThemeContext } from "../context/themeProvider"
-import { v4 as uuid } from "uuid"
 
 const TodoForm = ({
 	inputTitle,
 	setInputTitle,
 	inputDescription,
 	setInputDescription,
-	todoItems,
-	setTodoItems,
-	setTodoStatus,
+	buttonName,
+	onClickForm,
 }) => {
 	const theme = useThemeContext()
-
-	// Using the UUID package to generate a unique identifier for each todo item
-	const id = uuid()
 
 	// Handle user input in the title field
 	const handleInputTitleChange = (e) => {
@@ -35,39 +30,9 @@ const TodoForm = ({
 		}
 	}
 
-	// Hangle todo add button
-	const addTodoItem = (e) => {
-		if (
-			inputTitle === "" ||
-			inputDescription === "" ||
-			inputTitle.length <= 4 ||
-			inputDescription.length <= 15
-		) {
-			return alert("Invalid title or description! Please try again.")
-		} else {
-			e.preventDefault()
-			setTodoItems([
-				...todoItems,
-				{
-					title: inputTitle,
-					description: inputDescription,
-					completed: false,
-					id: id,
-				},
-			])
-			setInputTitle("")
-			setInputDescription("")
-		}
-	}
-
-	// Handle todo status
-	const changeTodoItemStatus = (e) => {
-		setTodoStatus(e.target.value)
-	}
-
 	return (
 		<FormWrapper>
-			<MainForm>
+			<Form>
 				<TodoTitle
 					value={inputTitle}
 					placeholder="Enter a todo item"
@@ -84,15 +49,10 @@ const TodoForm = ({
 					onChange={handleInputDescriptionChange}
 					required={true}
 				/>
-				<AddButton theme={theme} onClick={addTodoItem}>
-					Add Item
+				<AddButton theme={theme} onClick={onClickForm}>
+					{buttonName}
 				</AddButton>
-			</MainForm>
-			<TodoFilter onChange={changeTodoItemStatus}>
-				<FilterOption value="all">All</FilterOption>
-				<FilterOption value="pending">Pending</FilterOption>
-				<FilterOption value="completed">Completed</FilterOption>
-			</TodoFilter>
+			</Form>
 		</FormWrapper>
 	)
 }
@@ -105,27 +65,29 @@ const FormWrapper = styled.form`
 	padding: 2rem 0;
 
 	@media screen and (min-width: 700px) {
+		width: 75%;
 		flex-direction: row;
 		justify-content: space-between;
 	}
 `
 
-const MainForm = styled.div`
-	width: 75%;
+const Form = styled.div`
 	width: 100%;
-	margin: 2rem 0;
 	display: flex;
+	flex-direction: column;
+	gap: 2rem 0;
+	padding: 0 1rem;
 
 	@media screen and (min-width: 700px) {
-		width: 75%;
 		justify-content: space-between;
-		margin: 0;
+		flex-direction: row;
+		gap: 0;
 	}
 `
 
 const TodoTitle = styled.input`
-	width: 25%;
-	padding: 0 1rem;
+	width: 100%;
+	padding: 1rem;
 	border: none;
 	border-radius: 1rem;
 	transition: 0.25s ease-in-out;
@@ -133,17 +95,27 @@ const TodoTitle = styled.input`
 	&:focus {
 		opacity: 0.75;
 	}
+
+	@media screen and (min-width: 700px) {
+		width: 25%;
+		padding: 0 1rem;
+	}
 `
 
 const TodoDescription = styled.input`
-	width: 60%;
-	padding: 0 1rem;
+	width: 100%;
+	padding: 1rem;
 	border: none;
 	border-radius: 1rem;
 	transition: 0.25s ease-in-out;
 
 	&:focus {
 		opacity: 0.75;
+	}
+
+	@media screen and (min-width: 700px) {
+		width: 60%;
+		padding: 0 1rem;
 	}
 `
 
@@ -157,17 +129,8 @@ const AddButton = styled.button`
 	cursor: pointer;
 
 	&:hover {
-		opacity: 0.5;
+		opacity: 0.75;
 	}
 `
-
-const TodoFilter = styled.select`
-	border: none;
-	border-radius: 1rem;
-	padding: 0 1rem;
-	cursor: pointer;
-`
-
-const FilterOption = styled.option``
 
 export default TodoForm
